@@ -1,0 +1,82 @@
+CREATE TABLE Persona
+(CC INT(10) PRIMARY KEY,
+Nombre VARCHAR(30) NOT NULL,
+Email VARCHAR(50) NOT NULL UNIQUE,
+telefono INT(10) NOT NULL UNIQUE,
+Direccion VARCHAR(50) NOT NULL,
+tipoP VARCHAR(9) NOT NULL CHECK(tipoP='CLIENTE' OR tipoP='DISENADOR')
+);
+
+CREATE TABLE cliente
+(CC INT(10) PRIMARY KEY REFERENCES Persona);
+
+CREATE TABLE disenador
+(CC INT(10) PRIMARY KEY REFERENCES Persona);
+
+CREATE TABLE detalle
+(codigo INT(10) NOT NULL,
+cod_estampado INT(10) NOT NULL REFERENCES estampado(codigo) ON DELETE CASCADE,
+id_diseno INT(10) NOT NULL REFERENCES diseno(id) ON DELETE CASCADE	,
+PRIMARY KEY(codigo, cod_estampado, id_diseno)
+)ENGINE = InnoDB;
+
+CREATE TABLE diseno
+(id INT(10) PRIMARY KEY,
+titulo VARCHAR(30) NOT NULL UNIQUE,
+imagen BLOB NOT NULL,
+precio INT(10) NOT NULL,
+id_cuenta_disenador INT(10) REFERENCES cuenta_disenador,
+id_cuenta INT(10) REFERENCES cuenta,
+CHECK (( id_cuenta_disenador  IS NULL AND id_cuenta IS NOT NULL)
+    OR
+    (id_cuenta_disenador IS NOT NULL AND id_cuenta IS NULL)
+    )
+);
+
+CREATE TABLE cuenta
+(id INT(10) PRIMARY KEY,
+numero_estampados INT(4) NOT NULL,
+numero_pedidos INT(4) NOT NULL,
+numero_disenos_propios INT(4) NOT NULL,
+id_cuenta INT(10) NOT NULL REFERENCES cliente(CC) ON DELETE CASCADE
+)ENGINE = InnoDB;
+
+CREATE TABLE estampado
+(codigo INT(10) NOT NULL,
+nombre VARCHAR(30) NOT NULL UNIQUE,
+precio_total INT(10) NOT NULL,
+id_cuenta INT(10) NOT NULL REFERENCES cuenta(id) ON DELETE CASCADE,
+id_articulo INT(10) NOT NULL REFERENCES articulo(id) ON DELETE CASCADE,
+codigo_tecnica INT(10) NOT NULL REFERENCES tecnica,
+PRIMARY KEY(codigo, id_cuenta)
+)ENGINE = InnoDB;
+
+CREATE TABLE pedido
+(codigo_pedido INT(10) NOT NULL,
+cantidad_articulos INT(4) NOT NULL,
+fecha DATE NOT NULL,
+precio_final INT(5) NOT NULL,
+id_cuenta INT(10) NOT NULL REFERENCES cuenta(id) ON DELETE CASCADE,
+codigo_estampado INT(10) NOT NULL REFERENCES estampado(codigo) ON DELETE CASCADE,
+PRIMARY KEY(codigo_pedido, id_cuenta)
+)ENGINE = InnoDB;
+
+CREATE TABLE articulo
+(id INT(10) PRIMARY KEY,
+tipo VARCHAR(30) NOT NULL UNIQUE,
+material VARCHAR(30) NOT NULL UNIQUE,
+precio INT(10) NOT NULL
+);
+
+CREATE TABLE tecnica
+(codigo INT(10) PRIMARY KEY,
+nombre VARCHAR(30) NOT NULL UNIQUE,
+descripcion VARCHAR(200) NOT NULL,
+precio INT(10) NOT NULL
+);
+
+CREATE TABLE cuenta_disenador
+(id INT(10) PRIMARY KEY,
+disenos_publicados INT(4) NOT NULL,
+cc_disenador INT(10) NOT NULL REFERENCES disenador(CC) ON DELETE CASCADE
+)ENGINE = InnoDB;
