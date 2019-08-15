@@ -1,4 +1,4 @@
-<!-- En esta pagina puede encontrar mas informacion acerca de la estructura de un documento html 
+<!-- En esta pagina puede encontrar mas informacion acerca de la estructura de un documento html
     http://www.iuma.ulpgc.es/users/jmiranda/docencia/Tutorial_HTML/estruct.htm-->
     <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +15,7 @@
     para mas informacion buscar documentacion de boostraps en: https://getbootstrap.com/docs/4.3/getting-started/introduction/ -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!--CDN de forntawesome: Libreria de estilos SCSS y CSS incluir icononos y formas 
+    <!--CDN de forntawesome: Libreria de estilos SCSS y CSS incluir icononos y formas
      para mas informacio : https://fontawesome.com/start-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -43,7 +43,7 @@
     </ul>
     <div class="container mt-3">
         <div class="row">
-           
+
             <div class="col-6 px-2">
                 <div class="card">
                     <div class="card-header">
@@ -88,7 +88,7 @@
                                 <input type="submit" class="btn btn-primary" value="insertar">
                                 <a href="cliente.php" class="btn btn-success">Reiniciar</a>
                             </div>
-                            
+
 
                         </form>
 
@@ -110,30 +110,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php 
+                        <?php
                         require('selectClient.php');
                         if($result){
                             foreach ($result as $fila){
                         ?>
                         <tr>
                             <td><?=$fila['CC'];?></td>
-                            <td><?=$fila['nombre'];?></td>
-                            <td><?=$fila['email'];?></td>
-                            <td><?=$fila['celular'];?></td>
-                            <td><?=$fila['direccion'];?></td>
+                            <td><?=$fila['Nombre'];?></td>
+                            <td><?=$fila['Email'];?></td>
+                            <td><?=$fila['telefono'];?></td>
+                            <td><?=$fila['Direccion'];?></td>
+                            <td><?=$fila['tipoP'];?></td>
                             <td>
                                 <form class="d-inline " action="deleteClient.php" method="POST">
                                     <input id="d1" name="d1" type="hidden" value=<?=$fila['CC'];?>>
                                     <input type="submit" class="far fa-trash-alt" value="eliminar">
                                 </form>
                             </td>
-                            
+
                         </tr>
-                        <?php                    
+                        <?php
 
                                 }
                             }
-                            
+
                             ?>
                     </tbody>
                 </table>
