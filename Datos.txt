@@ -1,0 +1,56 @@
+INSERT INTO `persona` (`CC`, `Nombre`, `Email`, `telefono`, `Direccion`, `tipoP`) VALUES ('1152450152', 'Daniel', 'daarangovi@gmail.com', '3014110232', 'carrera 82b', 'CLIENTE');
+INSERT INTO `persona` (`CC`, `Nombre`, `Email`, `telefono`, `Direccion`, `tipoP`) VALUES ('123', 'Danny', 'daarangovi@unal.edu.co', '5810113', 'la mota', 'CLIENTE');
+INSERT INTO `persona` (`CC`, `Nombre`, `Email`, `telefono`, `Direccion`, `tipoP`) VALUES ('124', 'Nicolas', 'nicolas@gmail.com', '3410554', 'el poblado', 'DISENADOR');
+INSERT INTO `persona` (`CC`, `Nombre`, `Email`, `telefono`, `Direccion`, `tipoP`) VALUES ('125', 'Oyeu', 'oyeu@gmail.com', '3424551', 'universo', 'CLIENTE');
+INSERT INTO `persona` (`CC`, `Nombre`, `Email`, `telefono`, `Direccion`, `tipoP`) VALUES ('126', 'Laura', 'laura@gmail.com', '3006775474', 'los colores', 'DISENADOR');
+INSERT INTO `persona` (`CC`, `Nombre`, `Email`, `telefono`, `Direccion`, `tipoP`) VALUES ('127', 'Sofia', 'sofia@gmail.com', '3014002325', 'carrera 82b', 'CLIENTE');
+
+INSERT INTO `articulo` (`id`, `tipo`, `material`, `precio`) VALUES ('1', 'taza', 'ceramica', '3000');
+INSERT INTO `articulo` (`id`, `tipo`, `material`, `precio`) VALUES ('2', 'plato', 'vidrio', '10000');
+INSERT INTO `articulo` (`id`, `tipo`, `material`, `precio`) VALUES ('3', 'almohada', 'aluminio', '50000');
+INSERT INTO `articulo` (`id`, `tipo`, `material`, `precio`) VALUES ('4', 'bolso', 'tela', '20000');
+INSERT INTO `articulo` (`id`, `tipo`, `material`, `precio`) VALUES ('5', 'gorra', 'oro', '300000');
+INSERT INTO `articulo` (`id`, `tipo`, `material`, `precio`) VALUES ('6', 'morral', 'aire', '50');
+
+INSERT INTO `cuenta_cliente` (`id`, `numero_estampados`, `numero_pedidos`, `numero_disenos_propios`, `cc_cliente`) VALUES ('10', '2', '6', '1', '1152450152');
+INSERT INTO `cuenta_cliente` (`id`, `numero_estampados`, `numero_pedidos`, `numero_disenos_propios`, `cc_cliente`) VALUES ('11', '5', '4', '0', '123');
+INSERT INTO `cuenta_cliente` (`id`, `numero_estampados`, `numero_pedidos`, `numero_disenos_propios`, `cc_cliente`) VALUES ('12', '6', '20', '56', '125');
+INSERT INTO `cuenta_cliente` (`id`, `numero_estampados`, `numero_pedidos`, `numero_disenos_propios`, `cc_cliente`) VALUES ('13', '7', '10', '1', '127');
+
+INSERT INTO `cuenta_disenador` (`id`, `disenos_publicados`, `cc_disenador`) VALUES ('10', '50', '124');
+INSERT INTO `cuenta_disenador` (`id`, `disenos_publicados`, `cc_disenador`) VALUES ('11', '50', '126');
+
+INSERT INTO `diseno` (`id`, `titulo`, `imagen`, `precio`, `id_cuenta_disenador`, `id_cuenta_cliente`) VALUES ('1', 'super', NULL, '3000', '10', NULL);
+INSERT INTO `diseno` (`id`, `titulo`, `imagen`, `precio`, `id_cuenta_disenador`, `id_cuenta_cliente`) VALUES ('2', 'mega', NULL, '10000', '11', NULL);
+INSERT INTO `diseno` (`id`, `titulo`, `imagen`, `precio`, `id_cuenta_disenador`, `id_cuenta_cliente`) VALUES ('3', 'hiper', NULL, '15000', '10', NULL);
+INSERT INTO `diseno` (`id`, `titulo`, `imagen`, `precio`, `id_cuenta_disenador`, `id_cuenta_cliente`) VALUES ('4', 'ultra', NULL, '6000', '11', NULL);
+INSERT INTO `diseno` (`id`, `titulo`, `imagen`, `precio`, `id_cuenta_disenador`, `id_cuenta_cliente`) VALUES ('5', 'omw', NULL, '20000', '10', NULL);
+INSERT INTO `diseno` (`id`, `titulo`, `imagen`, `precio`, `id_cuenta_disenador`, `id_cuenta_cliente`) VALUES ('6', 'lol', NULL, '11000', '11', NULL);
+
+INSERT INTO `tecnica` (`codigo`, `nombre`, `descripcion`, `precio`) VALUES ('20', 'sublimado', 'sublimado', '1500');
+INSERT INTO `tecnica` (`codigo`, `nombre`, `descripcion`, `precio`) VALUES ('21', 'serigrafia', 'serigrafia', '3000');
+INSERT INTO `tecnica` (`codigo`, `nombre`, `descripcion`, `precio`) VALUES ('22', 'transfer', 'transfer', '5000');
+INSERT INTO `tecnica` (`codigo`, `nombre`, `descripcion`, `precio`) VALUES ('23', 'vinilo', 'vinilo textil', '10000');
+INSERT INTO `tecnica` (`codigo`, `nombre`, `descripcion`, `precio`) VALUES ('24', 'plastisol', 'plastisol', '7500');
+
+INSERT INTO `estampado` (`codigo`, `nombre`, `precio_total`, `id_cuenta`, `id_articulo`, `codigo_tecnica`) VALUES ('1', 'caballo', '4200', '10', '1', '20');
+INSERT INTO `estampado` (`codigo`, `nombre`, `precio_total`, `id_cuenta`, `id_articulo`, `codigo_tecnica`) VALUES ('2', 'cebra', '4200', '10', '2', '21');
+INSERT INTO `estampado` (`codigo`, `nombre`, `precio_total`, `id_cuenta`, `id_articulo`, `codigo_tecnica`) VALUES ('3', 'diana', '4200', '11', '3', '20');
+INSERT INTO `estampado` (`codigo`, `nombre`, `precio_total`, `id_cuenta`, `id_articulo`, `codigo_tecnica`) VALUES ('4', 'batman', '4200', '11', '4', '21');
+INSERT INTO `estampado` (`codigo`, `nombre`, `precio_total`, `id_cuenta`, `id_articulo`, `codigo_tecnica`) VALUES ('5', 'pertho', '4200', '12', '5', '22');
+INSERT INTO `estampado` (`codigo`, `nombre`, `precio_total`, `id_cuenta`, `id_articulo`, `codigo_tecnica`) VALUES ('6', 'flauta', '4200', '12', '6', '22');
+INSERT INTO `estampado` (`codigo`, `nombre`, `precio_total`, `id_cuenta`, `id_articulo`, `codigo_tecnica`) VALUES ('7', 'mario', '4200', '13', '4', '23');
+INSERT INTO `estampado` (`codigo`, `nombre`, `precio_total`, `id_cuenta`, `id_articulo`, `codigo_tecnica`) VALUES ('8', 'ragnarok', '4200', '13', '4', '24');
+
+INSERT INTO `pedido` (`codigo_pedido`, `cantidad_articulos`, `fecha`, `precio_final`, `id_cuenta`, `codigo_estampado`) VALUES ('1', '5', '2019-08-13', '2500', '10', '2');
+INSERT INTO `pedido` (`codigo_pedido`, `cantidad_articulos`, `fecha`, `precio_final`, `id_cuenta`, `codigo_estampado`) VALUES ('2', '5', '2019-04-13', '2500', '11', '1');
+INSERT INTO `pedido` (`codigo_pedido`, `cantidad_articulos`, `fecha`, `precio_final`, `id_cuenta`, `codigo_estampado`) VALUES ('3', '5', '2019-08-24', '2500', '12', '1');
+INSERT INTO `pedido` (`codigo_pedido`, `cantidad_articulos`, `fecha`, `precio_final`, `id_cuenta`, `codigo_estampado`) VALUES ('4', '2', '2019-08-30', '2500', '13', '1');
+INSERT INTO `pedido` (`codigo_pedido`, `cantidad_articulos`, `fecha`, `precio_final`, `id_cuenta`, `codigo_estampado`) VALUES ('5', '10', '2019-09-30', '2500', '12', '2');
+INSERT INTO `pedido` (`codigo_pedido`, `cantidad_articulos`, `fecha`, `precio_final`, `id_cuenta`, `codigo_estampado`) VALUES ('6', '10', '2019-12-20', '2500', '11', '1');
+
+INSERT INTO `detalle` (`codigo`, `cod_estampado`, `id_diseno`) VALUES ('1', '2', '2');
+INSERT INTO `detalle` (`codigo`, `cod_estampado`, `id_diseno`) VALUES ('1', '3', '2');
+INSERT INTO `detalle` (`codigo`, `cod_estampado`, `id_diseno`) VALUES ('1', '2', '3');
+INSERT INTO `detalle` (`codigo`, `cod_estampado`, `id_diseno`) VALUES ('9', '4', '3');
+INSERT INTO `detalle` (`codigo`, `cod_estampado`, `id_diseno`) VALUES ('2', '5', '3');

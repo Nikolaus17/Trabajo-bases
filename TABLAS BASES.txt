@@ -1,53 +1,47 @@
-CREATE TABLE Persona
+CREATE TABLE persona
 (CC INT(10) PRIMARY KEY,
 Nombre VARCHAR(30) NOT NULL,
 Email VARCHAR(50) NOT NULL UNIQUE,
-telefono INT(10) NOT NULL UNIQUE,
+telefono BIGINT(10) UNIQUE,
 Direccion VARCHAR(50) NOT NULL,
 tipoP VARCHAR(9) NOT NULL CHECK(tipoP='CLIENTE' OR tipoP='DISENADOR')
 );
 
-CREATE TABLE cliente
-(CC INT(10) PRIMARY KEY REFERENCES Persona);
-
-CREATE TABLE disenador
-(CC INT(10) PRIMARY KEY REFERENCES Persona);
-
 CREATE TABLE detalle
 (codigo INT(10) NOT NULL,
 cod_estampado INT(10) NOT NULL REFERENCES estampado(codigo) ON DELETE CASCADE,
-id_diseno INT(10) NOT NULL REFERENCES diseno(id) ON DELETE CASCADE	,
+id_diseno INT(10) NOT NULL REFERENCES diseno(id) ON DELETE CASCADE,
 PRIMARY KEY(codigo, cod_estampado, id_diseno)
 )ENGINE = InnoDB;
 
 CREATE TABLE diseno
 (id INT(10) PRIMARY KEY,
 titulo VARCHAR(30) NOT NULL UNIQUE,
-imagen BLOB NOT NULL,
+imagen BLOB,
 precio INT(10) NOT NULL,
-id_cuenta_disenador INT(10) REFERENCES cuenta_disenador,
-id_cuenta INT(10) REFERENCES cuenta,
-CHECK (( id_cuenta_disenador  IS NULL AND id_cuenta IS NOT NULL)
+id_cuenta_disenador INT(10) REFERENCES cuenta_disenador(id),
+id_cuenta_cliente INT(10) REFERENCES cuenta_cliente(id),
+CHECK (( id_cuenta_disenador  IS NULL AND id_cuenta_cliente IS NOT NULL)
     OR
-    (id_cuenta_disenador IS NOT NULL AND id_cuenta IS NULL)
+    (id_cuenta_disenador IS NOT NULL AND id_cuenta_cliente IS NULL)
     )
 );
 
-CREATE TABLE cuenta
+CREATE TABLE cuenta_cliente
 (id INT(10) PRIMARY KEY,
 numero_estampados INT(4) NOT NULL,
 numero_pedidos INT(4) NOT NULL,
 numero_disenos_propios INT(4) NOT NULL,
-id_cuenta INT(10) NOT NULL REFERENCES cliente(CC) ON DELETE CASCADE
+cc_cliente INT(10) NOT NULL UNIQUE REFERENCES Persona(CC) ON DELETE CASCADE
 )ENGINE = InnoDB;
 
 CREATE TABLE estampado
 (codigo INT(10) NOT NULL,
 nombre VARCHAR(30) NOT NULL UNIQUE,
 precio_total INT(10) NOT NULL,
-id_cuenta INT(10) NOT NULL REFERENCES cuenta(id) ON DELETE CASCADE,
+id_cuenta INT(10) NOT NULL REFERENCES cuenta_cliente(id) ON DELETE CASCADE,
 id_articulo INT(10) NOT NULL REFERENCES articulo(id) ON DELETE CASCADE,
-codigo_tecnica INT(10) NOT NULL REFERENCES tecnica,
+codigo_tecnica INT(10) NOT NULL REFERENCES tecnica(codigo) ON DELETE CASCADE,
 PRIMARY KEY(codigo, id_cuenta)
 )ENGINE = InnoDB;
 
@@ -56,7 +50,7 @@ CREATE TABLE pedido
 cantidad_articulos INT(4) NOT NULL,
 fecha DATE NOT NULL,
 precio_final INT(5) NOT NULL,
-id_cuenta INT(10) NOT NULL REFERENCES cuenta(id) ON DELETE CASCADE,
+id_cuenta INT(10) NOT NULL REFERENCES cuenta_cliente(id) ON DELETE CASCADE,
 codigo_estampado INT(10) NOT NULL REFERENCES estampado(codigo) ON DELETE CASCADE,
 PRIMARY KEY(codigo_pedido, id_cuenta)
 )ENGINE = InnoDB;
@@ -78,5 +72,60 @@ precio INT(10) NOT NULL
 CREATE TABLE cuenta_disenador
 (id INT(10) PRIMARY KEY,
 disenos_publicados INT(4) NOT NULL,
-cc_disenador INT(10) NOT NULL REFERENCES disenador(CC) ON DELETE CASCADE
+cc_disenador INT(10) NOT NULL UNIQUE REFERENCES Persona(CC) ON DELETE CASCADE
 )ENGINE = InnoDB;
+
+ALTER TABLE detalle
+ADD CONSTRAINT FK_ESTAMPADO FOREIGN KEY(cod_estampado)
+REFERENCES estampado (codigo)
+on delete restrict on update restrict;
+
+ALTER TABLE detalle
+ADD CONSTRAINT FK_IDDISENO FOREIGN KEY(id_diseno)
+REFERENCES diseno (id)
+on delete restrict on update restrict;
+
+ALTER TABLE diseno
+ADD CONSTRAINT IDCCL FOREIGN KEY(id_cuenta_cliente)
+REFERENCES cuenta_cliente (id)
+on delete restrict on update restrict;
+
+ALTER TABLE diseno
+ADD CONSTRAINT IDCDI FOREIGN KEY(id_cuenta_disenador)
+REFERENCES cuenta_disenador (id)
+on delete restrict on update restrict;
+
+ALTER TABLE cuenta_cliente
+ADD CONSTRAINT CCCLIENTE FOREIGN KEY(cc_cliente)
+REFERENCES persona (CC)
+on delete restrict on update restrict;
+
+ALTER TABLE estampado
+ADD CONSTRAINT IDC FOREIGN KEY(id_cuenta)
+REFERENCES cuenta_cliente (id)
+on delete restrict on update restrict;
+
+ALTER TABLE estampado
+ADD CONSTRAINT IDA FOREIGN KEY(id_articulo)
+REFERENCES articulo (id)
+on delete restrict on update restrict;
+
+ALTER TABLE estampado
+ADD CONSTRAINT CT FOREIGN KEY(codigo_tecnica)
+REFERENCES tecnica (codigo)
+on delete restrict on update restrict;
+
+ALTER TABLE pedido
+ADD CONSTRAINT IDCU FOREIGN KEY(id_cuenta)
+REFERENCES cuenta_cliente (id)
+on delete restrict on update restrict;
+
+ALTER TABLE pedido
+ADD CONSTRAINT CE FOREIGN KEY(codigo_estampado)
+REFERENCES estampado (codigo)
+on delete restrict on update restrict;
+
+ALTER TABLE cuenta_disenador
+ADD CONSTRAINT CCDI FOREIGN KEY(cc_disenador)
+REFERENCES persona (CC)
+on delete restrict on update restrict;
